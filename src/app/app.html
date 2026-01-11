@@ -14,7 +14,36 @@
       <input type="text" [field]="myForm.lastname" />
     </label>
   </div>
+
+  <div>
+    <!-- {{ myForm.firstname().errors() | json }} -->
+    @if (myForm.firstname().errors(); as errors) {
+    <ul>
+      @for (error of errors; track $index) {
+      <li>{{ error.message }}</li>
+      }
+    </ul>
+    }
+  </div>
+
+  <div>
+    <label>
+      Age:
+      <input type="number" [field]="myForm.age" />
+    </label>
+    @if (myForm.age().errors(); as errors) {
+    <ul>
+      @for (error of errors; track $index) {
+      <li>{{ error.message }}</li>
+      }
+    </ul>
+    }
+  </div>
 </form>
+
+<div>
+  <span>Il form è valido: {{ myForm().valid() }}</span>
+</div>
 
 <div>
   MODEL:
