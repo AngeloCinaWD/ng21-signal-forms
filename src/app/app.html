@@ -1,1 +1,26 @@
 <h1>Signal Forms</h1>
+
+<form>
+  <div>
+    <label>
+      Username
+      <input type="text" [field]="registerForm.username" />
+    </label>
+  </div>
+
+  <div>
+    @if (registerForm.username().pending()) {
+    <p class="info">Checking availability...</p>
+    }
+  </div>
+
+  <div>
+    @if (registerForm.username().touched() && registerForm.username().invalid()) {
+    <ul class="errorBox">
+      @for (error of registerForm.username().errors(); track $index) {
+      <li>{{ error.message }}</li>
+      }
+    </ul>
+    }
+  </div>
+</form>
