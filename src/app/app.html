@@ -1,158 +1,27 @@
 <h1>Signal Forms</h1>
 
+<form>
+  <div>
+    <label>
+      Firstname
+      <input type="text" [field]="myForm.firstname" />
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Lastname
+      <input type="text" [field]="myForm.lastname" />
+    </label>
+  </div>
+</form>
+
 <div>
-  <form>
-    <label>
-      Username
-      <!-- utilizzo la direttiva [field]="" per ottenere una sincronizzazione two-way binding-->
-      <input type="text" [field]="loginForm.username" />
-      <!--  costruisco un div che appare solo se il campo non è valido e se l'utente ha interagito col campo-->
-      @if(loginForm.username().invalid() && loginForm.username().touched()){
-      <ul>
-        @for (error of loginForm.username().errors(); track $index) {
-        <li class="errorBox">{{ error.message }}</li>
-        }
-      </ul>
-      }
-    </label>
-    <label>
-      Password
-      <input type="password" [field]="loginForm.password" />
-      @if(loginForm.password().invalid() && loginForm.password().touched()){
-      <ul>
-        @for (error of loginForm.password().errors(); track $index) {
-        <li class="errorBox">{{ error.message }}</li>
-        }
-      </ul>
-      }
-    </label>
-    <div></div>
-    <label>
-      Agree:
-      <input type="checkbox" [field]="loginForm.agree" />
-      I agree to the terms @if(loginForm.agree().invalid() && loginForm.agree().touched()){
-      <ul>
-        @for (error of loginForm.agree().errors(); track $index) {
-        <li class="errorBox">{{ error.message }}</li>
-        }
-      </ul>
-      }
-    </label>
-    <div></div>
-    <label>
-      Plan:
-      <div>Free<input type="radio" value="free" [field]="loginForm.plan" /></div>
-      <div>Premium<input type="radio" value="premium" [field]="loginForm.plan" /></div>
-    </label>
-    <div></div>
-    <select [field]="loginForm.tech">
-      <!-- <option value="" disabled>Seleziona un framework</option>
-      <option value="vue">VUE</option>
-      <option value="angular">ANGULAR</option> -->
-      <option value="" disabled>Seleziona un framework</option>
-      @for (tech of techs; track tech.id) {
-      <option [value]="tech.value">{{ tech.value.toUpperCase() }}</option>
-      }
-    </select>
-    <div></div>
-    <label>
-      N:
-      <input type="number" [field]="loginForm.n" step="10" />
-    </label>
-    <div></div>
-    <!-- campo nel form che verrà validato tramite chiamate ad un BE -->
-    <!-- in questo caso controllo se esiste un utente con un determinato username -->
-    <label>
-      Username JSONPlaceholder:
-      <input type="text" [field]="loginForm.user" />
-      <!-- il metodo .pending() permette di mostrare un messaggio mentre è in corso, in modo asincrono, la validazione -->
-      <!--il metodo .pending() scatta quando parte la chiamata di validazione asincrona e rimane true fino a che non fnisce  -->
-      <!-- la validazione asincrona parte ogni volta che digito nell'input -->
-      @if (loginForm.user().pending()) {
-      <span class="checking">Checking availability...</span>
-      }
-      <!--  -->
-      @if (loginForm.user().touched() && loginForm.user().invalid()) {
-      <ul class="error-list">
-        @for (error of loginForm.user().errors(); track $index) {
-        <li>{{ error.message }}</li>
-        }
-      </ul>
-      }
-    </label>
-  </form>
+  MODEL:
+  <pre>{{ formModel() | json }}</pre>
+</div>
 
-  <div>
-    <button (click)="logValues()">Log values</button>
-  </div>
-
-  <div>
-    <button (click)="updateValues()">Update values</button>
-  </div>
-
-  <div>
-    Signal Form:
-    <pre>{{ loginForm().value() | json }}</pre>
-  </div>
-
-  <div>
-    Form Model:
-    <pre>{{ formModel() | json }}</pre>
-  </div>
-
-  <!-- senza il .value non funziona perchè username() mi restituisce un FormControl (compongono il FormGroup), .value mi dà invece un Signal e quindi mettendoci le tonde mi dà il valore -->
-  <div>
-    <pre>{{ loginForm.username().value() }}</pre>
-  </div>
-
-  <div>
-    <pre>{{ loginForm.password().value() }}</pre>
-  </div>
-
-  <div>
-    <!-- touched indica che il campo è stato cliccato almeno una volta dall'utente e poi è uscito -->
-    Username is touched:
-    <pre>{{ loginForm.username().touched() }}</pre>
-  </div>
-
-  <div>
-    <!-- dirty indica che il campo è stato riempito almeno una volta dall'utente e anche se cancella rimane true -->
-    Username is dirty:
-    <pre>{{ loginForm.username().dirty() }}</pre>
-  </div>
-
-  <div>
-    Password Length:
-    <pre>{{ passwordLength() }}</pre>
-  </div>
-  <!-- se è presente il campo color in loginForm lo visualizzo -->
-  @if (loginForm.color; as UserColor) {
-  <div>
-    User Color:
-    <pre>{{ UserColor().value() }}</pre>
-  </div>
-  }
-  <!-- se è presente il campo color in formModel -->
-  @if (formModel().color; as UserColor) {
-  <div>
-    User Color:
-    <pre>{{ UserColor }}</pre>
-  </div>
-  }
-
-  <!-- posso utilizzare il metodo valid() sul FormGroup per far comparire un button di submit-->
-  <div>
-    Form is valid:
-    <pre>{{ loginForm().valid() }}</pre>
-  </div>
-  @if(loginForm().valid()) {
-  <div>
-    <button>Submit</button>
-  </div>
-  }
-  <!-- oppure rendere non cliccabile il button se il form è invalid -->
-  <div>
-    Button disabilitato se invald form
-    <button [disabled]="loginForm().invalid()">Submit</button>
-  </div>
+<div>
+  FORM:
+  <pre>{{ myForm().value() | json }}</pre>
 </div>
